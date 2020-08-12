@@ -1,0 +1,200 @@
+1.	How can I check the state of a repository?
+	git status
+
+2.	How can I tell what I have changed?
+	git status shows you which files are in this staging area, and which files have changes that haven't yet been put there. In order to compare the file as it currently is to what you last saved, you can use git diff filename. git diff without any filenames will show you all the changes in your repository, while git diff directory will show you the changes to the files in some directory.
+
+3.	What's the first step in saving changes?
+	Add one or more files to the staging area.
+	Commit everything in the staging area.
+	To add a file to the staging area, use git add filename.
+
+4.	How can I tell what's going to be committed?
+	git diff -r HEAD. The -r flag means "compare to a particular revision", and HEAD is a shortcut meaning "the most recent commit".
+	You can restrict the results to a single file or directory using git diff -r HEAD path/to/file
+	
+5.	Interlude: how can I edit a file?
+	type nano filename, it will open filename for editing.
+	You can also do a few other operations with control-key combinations:
+	Ctrl-K: delete a line.
+	Ctrl-U: un-delete a line.
+	Ctrl-O: save the file ('O' stands for 'output').
+	Ctrl-X: exit the editor.
+
+6.	How do I commit changes?
+	git commit -m "Program appears to have become self-aware."
+	If you accidentally mistype a commit message, you can change it using the --amend flag.
+	git commit --amend - m "new message"
+
+7.	How can I view a repository's history?
+	git log is used to view the log of the project's history. Press the space bar to go down a page or the 'q' key to quit.
+	
+8.	How can I view a specific file's history?
+	do this using git log path, where path is the path to a specific file or directory. 
+
+9.	How do I write a better log message?
+	run git commit without -m "message", Git launches a text editor with a template . Write detailed message in the edito(nano)
+
+10. How do I get the hash of a commit?
+	run git log. 
+
+11.	How can I view a specific commit?
+	use the command git show with the first few characters of the commit's hash
+
+12. What is Git's equivalent of a relative path?
+	git show HEAD~2(refers to the 2 commit before recent commit)
+	
+13.	How can I see who changed what in a file?
+	git annotate filename
+
+14.	How can I see what changed between two commits?
+	git diff ID1..ID2
+
+15.	How can I remove unwanted files?
+	The command git clean -n will show you a list of files that are in the repository, but whose history Git is not currently tracking. A similar command git clean -f will then delete those files.
+
+16.	How can I see how Git is configured?
+	Use the command git config --list with one of three additional options:
+	--system: settings for every user on this computer.
+	--global: settings for every one of your projects.
+	--local: settings for one specific project.
+	Each level overrides the one above it, so local settings (per-project) take precedence over global settings (per-user), which in turn take precedence over system settings (for all users on the computer).
+
+17.	How can I change my Git configuration?
+	Most of Git's settings should be left as they are. However, there are two you should set on every computer you use: your name and your email address
+	git config --global setting value
+	The settings that identify your name and email address are user.name and user.email, respectively
+
+18. How can I commit changes selectively?
+	git add path/to/file.
+	If you make a mistake and accidentally stage a file you shouldn't have, you can unstage the additions with git reset HEAD and try again.
+
+19.	How do I re-stage files?
+	check status : git status and then:
+	git add data/northern.csv
+
+20. How can I undo changes to unstaged files?
+	git checkout -- filename will discard the changes that have not yet been staged
+	
+21.	How can I undo changes to staged files?
+	By combining git reset with git checkout:
+	git reset HEAD path/to/file
+	git checkout -- path/to/file
+
+22. How do I restore an old version of a file?
+	the `git checkout 2242bd report.txt` 
+	would replace the current version of report.txt with the version 
+
+23. How can I undo all of the changes I have made?
+	So far, you have seen how to undo changes to a single file at a time using git reset HEAD path/to/file. You will sometimes want to undo changes to many files.
+
+	One way to do this is to give `git reset` a directory. For example, `git reset HEAD data` will unstage any files from the data directory. Even better, if you don't provide any files or directories, it will unstage everything. Even even better, HEAD is the default commit to unstage, so you can simply write `git reset` to unstage everything.
+
+	Similarly `git checkout -- data` will then restore the files in the data directory to their previous state. You can't leave the file argument completely blank, but recall from Introduction to Shell for Data Science that you can refer to the current directory as .. So `git checkout -- .` will revert all files in the current directory.
+
+24.	How can I see what branches my repository has?
+	git branch
+	branch with * is the current one
+
+25.	How can I view the differences between branches?
+	git diff branch-1..branch-2
+
+26.	How can I switch from one branch to another?
+	git checkout branchname
+
+27. How can I create a branch?
+	git checkout -b branch-name
+	creates a branch then switch to it in one step
+
+28.	How can I merge two branches?
+	git merge source destination
+
+29. How can I merge two branches with conflicts?
+	Use git status to see which file has conflicts.
+	reminds you which files have conflicts that you need to resolve by printing both modified: beside the files' names.
+	Use nano to remove conflicts
+	add file to staging area 
+	and then commit
+
+30.	How can I create a brand new repository?
+	git init project-name, where "project-name" is the name you want the new repository's root directory to have.
+
+31.	How can I turn an existing project into a Git repository?
+	git init /path/to/project
+
+32.	How can I create a copy of an existing repository?
+	git clone /existing/project newprojectname
+
+33.	How can I find out where a cloned repository originated?
+	git remote -v
+
+34. How can I define remotes?
+	You can add more remotes using:				git remote add remote-name URL
+	and remove existing ones using:				git remote rm remote-name
+
+35.	How can I pull in changes from a remote repository?
+	git pull remote branch -- from the working branch
+
+36.	What happens if I try to pull when I have unsaved changes?
+	Just as Git stops you from switching branches when you have unsaved work, it also stops you from pulling in changes from a remote repository when doing so might overwrite things you have done locally. The fix is simple: either commit your local changes or revert them, and then try to pull again.
+
+37.	How can I push my changes to a remote repository?
+	git push remote-name branch-name
+
+38. What happens if my push conflicts with someone else's work?
+	Git does not allow you to push changes to a remote repository unless you have merged the contents of the remote repository into your own work
+	if that occurs do a pull first to merge the repositories and then push again.
+
+39.	How do I delete a repository?
+	rm -rf .git
+	 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
